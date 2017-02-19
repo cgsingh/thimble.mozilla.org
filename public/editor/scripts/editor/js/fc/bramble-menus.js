@@ -54,6 +54,7 @@ define(function(require) {
     });
     // Set initial UI value to match editor value
     setWordWrapUI(bramble.getWordWrap());
+
     //set initial UI value to allow javascript UI
     if(bramble.getAllowJavaScript()) {
         $("#allow-scripts-toggle").addClass("switch-enabled");
@@ -74,6 +75,28 @@ define(function(require) {
         $allowScriptsToggle.removeClass("switch-enabled");
         bramble.disableJavaScript();
         analytics.event("DisableJavaScript");
+      }
+
+      return false;
+    });
+
+    //set initial Auto Enclose Tags Toggle UI to correspond to the state it's already in
+    if(bramble.getCloseTags()) {
+      $("#auto-tags-toggle").addClass("switch-enabled");
+    } else {
+      $("#auto-tags-toggle").removeClass("switch-enabled");
+    }
+
+    $("#auto-tags-toggle").click(function() {
+      var $autoTagsToggle = $("#auto-tags-toggle");
+      var toggle = !($autoTagsToggle.hasClass("switch-enabled"));
+
+      if (toggle) {
+        $autoTagsToggle.addClass("switch-enabled");
+        bramble.enableAutoCloseTags();
+      } else {
+        $autoTagsToggle.removeClass("switch-enabled");
+        bramble.disableAutoCloseTags();
       }
 
       return false;
